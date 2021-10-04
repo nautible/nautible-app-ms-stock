@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "jp.co.ogis_ri.nautible.app.stock.api.grpc";
+option java_outer_classname = "StockProto";
+option objc_class_prefix = "RAS";
+
+package stock;
+
+// 在庫サービス
+service StockService {
+    // 在庫を取得する
+    rpc GetByProductId (GrpcGetByProductIdRequest) returns (GrpcGetByProductIdResponse) {}
+    // 在庫を取得する
+    rpc GetByStockId (GrpcGetByStockIdRequest) returns (GrpcGetByStockIdResponse) {}
+    // 在庫を削除する
+    rpc DeleteByStockId (GrpcDeleteByStockIdRequest) returns (Empty) {}
+    // 在庫を作成する
+    rpc Create (GrpcCreateStockRequest) returns (GrpcCreateStockResponse) {}
+    // 在庫を更新する
+    rpc Update (GrpcUpdateStockRequest) returns (GrpcUpdateStockResponse) {}
+    // 全在庫を取得する
+    rpc FindAll (Empty) returns (GrpcFindAllStockResponse) {}
+}
+
+// 在庫取得Request
+message GrpcGetByProductIdRequest {
+    int32 productId = 1;
+}
+
+// 在庫取得Reply
+message GrpcGetByProductIdResponse {
+    GrpcStock stock = 1;
+}
+
+
+// 在庫取得Request
+message GrpcGetByStockIdRequest {
+    int32 stockId = 1;
+}
+
+// 在庫取得Reply
+message GrpcGetByStockIdResponse {
+    GrpcStock stock = 1;
+}
+
+// 在庫削除Request
+message GrpcDeleteByStockIdRequest {
+    int32 stockId = 1;
+}
+
+// 在庫作成Request
+message GrpcCreateStockRequest {
+    GrpcStock stock = 1;
+}
+
+// 在庫作成Reply
+message GrpcCreateStockResponse {
+    GrpcStock stock = 1;
+}
+
+// 在庫更新Request
+message GrpcUpdateStockRequest {
+    GrpcStock stock = 1;
+}
+
+// 在庫更新Reply
+message GrpcUpdateStockResponse {
+    GrpcStock stock = 1;
+}
+
+// 全在庫取得Reply
+message GrpcFindAllStockResponse {
+    repeated GrpcStock stocks = 1;
+}
+
+// 在庫
+message GrpcStock {
+    // Id
+    int32 id = 1;
+    // 商品Id
+    int32 productId = 2;
+    // 数量
+    int32 quantity = 3;
+    // 予約数量（引当がPENDINGステータスの数量）
+    int32 reservedQuantity = 4;
+}
+
+// Empty
+message Empty {}

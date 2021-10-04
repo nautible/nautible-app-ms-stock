@@ -1,0 +1,40 @@
+apiVersion: skaffold/v2beta12
+kind: Config
+metadata:
+  name: nautible-app-stock
+build:
+  artifacts:
+  - image: public.ecr.aws/nautible/nautible-app-stock
+  # Dockerfileを指定するやり方では、skaffoldはappのjarファイル監視し、javaコードの変更などを監視しない。
+  # そのため、skaffold customを利用し、プロジェクト全体のソースを監視し、変更があった場合にはapp image ビルドを行う
+    custom:
+      buildCommand: build.cmd aws
+      dependencies:
+        paths:
+          - "."
+        ignore:
+          - "**\\target\\**"
+  local:
+    push: false
+deploy:
+  kustomize:
+    paths:
+      - ../nautible-app-stock-manifest/overlays/aws/local-dev
+
+profiles:
+- name: aws
+- name: azure
+  build:
+    artifacts:
+    - image: nautibledevacr.azurecr.io/nautible-app-stock
+      custom:
+        buildCommand: build.cmd azure
+        dependencies:
+          paths:
+            - "."
+          ignore:
+            - "**\\target\\**"
+  deploy:
+    kustomize:
+      paths:
+        - ../nautible-app-stock-manifest/overlays/azure/local-dev
