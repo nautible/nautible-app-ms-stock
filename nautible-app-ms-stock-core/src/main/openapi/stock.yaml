@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: nautible-app-stock
+  title: nautible-app-ms-stock
   version: 1.0.0-SNAPSHOT
 servers:
 - url: http://localhost:8080/
