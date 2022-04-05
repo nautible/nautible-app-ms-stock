@@ -2,14 +2,14 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>nautible-app-stock-aws</artifactId>
+  <artifactId>nautible-app-ms-stock-azure</artifactId>
 
   <properties>
   </properties>
 
   <parent>
     <groupId>jp.co.ogis-ri.nautible.app</groupId>
-    <artifactId>nautible-app-stock-parent</artifactId>
+    <artifactId>nautible-app-ms-stock-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
@@ -28,22 +28,10 @@
       <artifactId>mapstruct-processor</artifactId>
       <scope>provided</scope>
     </dependency>
-    <!-- dynamodb -->
+    <!-- cosmos for mangodb api -->
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-amazon-dynamodb</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>software.amazon.awssdk</groupId>
-      <artifactId>url-connection-client</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>software.amazon.awssdk</groupId>
-      <artifactId>netty-nio-client</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>software.amazon.awssdk</groupId>
-      <artifactId>dynamodb-enhanced</artifactId>
+      <artifactId>quarkus-mongodb-panache</artifactId>
     </dependency>
   </dependencies>
   <build>
