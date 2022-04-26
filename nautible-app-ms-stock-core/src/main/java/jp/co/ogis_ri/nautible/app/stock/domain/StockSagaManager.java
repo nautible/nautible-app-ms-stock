@@ -6,7 +6,7 @@ import javax.enterprise.context.ApplicationScoped;
 
 import io.dapr.client.DaprClient;
 import io.dapr.client.DaprClientBuilder;
-import io.dapr.client.domain.PublishEventRequestBuilder;
+import io.dapr.client.domain.PublishEventRequest;
 import jp.co.ogis_ri.nautible.app.order.client.rest.CreateOrderReply;
 import jp.co.ogis_ri.nautible.app.order.client.rest.CreateOrderReply.ProcessTypeEnum;
 
@@ -93,8 +93,8 @@ public class StockSagaManager {
         // DaprはW3Cのspecを採用、IstioはW3CのSpecには現状未対応。
         // IstioがW3Cに対応したらうまく共存できるかも？https://github.com/istio/istio/issues/23960
         executeDaprClient(
-                c -> c.publishEvent(new PublishEventRequestBuilder(ORDER_PUBSUB_NAME, replyTopic, data)
-                        .withContentType(PUBSUB_CONTENT_TYPE).build())
+                c -> c.publishEvent(new PublishEventRequest(ORDER_PUBSUB_NAME, replyTopic, data)
+                        .setContentType(PUBSUB_CONTENT_TYPE))
                         .block());
     }
 
