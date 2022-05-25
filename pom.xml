@@ -124,6 +124,10 @@
     </pluginManagement>
   </build>
   <profiles>
+    <!-- 
+      最新のmvn(3.8.5)を利用した場合、quarkus-maven-pluginではコマンドライン引数(-P xxx)でのプロファイル指定が有効とならない。
+      system propertyでのプロファイルの有効化が機能するのでsystem propertyを利用する。
+    -->
     <profile>
       <id>default</id>
       <activation>
@@ -138,6 +142,12 @@
     </profile>
     <profile>
       <id>aws</id>
+      <activation>
+        <property>
+          <name>cloud</name>
+          <value>aws</value>
+        </property>
+      </activation>
       <modules>
         <module>nautible-app-ms-stock-core</module>
         <module>nautible-app-ms-stock-aws</module>
@@ -146,6 +156,12 @@
     </profile>
     <profile>
       <id>azure</id>
+      <activation>
+        <property>
+          <name>cloud</name>
+          <value>azure</value>
+        </property>
+      </activation>
       <modules>
         <module>nautible-app-ms-stock-core</module>
         <module>nautible-app-ms-stock-azure</module>

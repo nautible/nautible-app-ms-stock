@@ -17,10 +17,18 @@
   </dependencies>
 
   <profiles>
+    <!-- 
+      最新のmvn(3.8.5)を利用した場合、quarkus-maven-pluginではコマンドライン引数(-P xxx)でのプロファイル指定が有効とならない。
+      system propertyでのプロファイルの有効化が機能するのでsystem propertyを利用する。
+    -->
     <profile>
       <id>aws</id>
       <activation>
         <activeByDefault>true</activeByDefault>
+        <property>
+          <name>cloud</name>
+          <value>aws</value>
+        </property>
       </activation>
       <dependencies>
         <dependency>
@@ -31,6 +39,12 @@
     </profile>
     <profile>
       <id>azure</id>
+      <activation>
+        <property>
+          <name>cloud</name>
+          <value>azure</value>
+        </property>
+      </activation>
       <dependencies>
         <dependency>
           <groupId>${nautible.app.stock.groupId}</groupId>
