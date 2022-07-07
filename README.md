@@ -49,3 +49,4 @@ kubectl apply -k overlays/(aws|azure)/local-dev/dependencies
 ```bash
 skaffold dev --profile=(aws|azure) --port-forward
 ```
+※wslなどのLinux環境で実行することを前提としています
