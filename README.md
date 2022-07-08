@@ -1,4 +1,4 @@
-# nautible-app-stock project
+# nautible-app-ms-stock project
 このドキュメントには在庫アプリケーションについて記載する。
 アプリケーション共通の内容については[こちら](https://github.com/nautible/docs/app-common/README.md)を参照。
 Quarkusアプリケーション共通の内容については[こちら](https://github.com/nautible/docs/quarkus/README.md)を参照。
@@ -33,4 +33,20 @@ Quarkusアプリケーション共通の内容については[こちら](https:/
 * [skaffoldのインストール](https://skaffold.dev/docs/install/)
 * [daprのインストール(helm)](https://docs.dapr.io/getting-started/install-dapr-kubernetes/#install-with-helm-advanced)
 * マニフェストファイルの配置
-[nautible-app-stock-manifest](https://github.com/nautible/nautible-app-stock-manifest)をnautible-app-stockプロジェクトと同一階層に配置する(git clone)。
+[nautible-app-ms-stock-manifest](https://github.com/nautible/nautible-app-ms-stock-manifest)をnautible-app-ms-stockプロジェクトと同一階層に配置する(git clone)。
+
+## サンプルアプリ利用手順
+
+### アプリケーション依存サービスの起動
+
+manifestリポジトリでマニフェストを適用する
+
+```bash
+kubectl apply -k overlays/(aws|azure)/local-dev/dependencies
+```
+### skaffoldによるアプリケーション起動
+
+```bash
+skaffold dev --profile=(aws|azure) --port-forward
+```
+※wslなどのLinux環境で実行することを前提としています

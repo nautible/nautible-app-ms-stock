@@ -1,0 +1,373 @@
+openapi: 3.0.3
+info:
+  title: nautible-app-ms-stock
+  version: 1.0.0-SNAPSHOT
+servers:
+- url: http://localhost:8080/
+paths:
+  /stock/{stockId}:
+    get:
+      tags:
+        - RestStockService
+      operationId: getByStockId
+      summary: 在庫取得
+      description: 在庫取得
+      parameters:
+      - name: stockId
+        in: path
+        description: Id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestGetByStockIdResponse'
+        404:
+          description: not found
+          content: {}
+    delete:
+      tags:
+        - RestStockService
+      operationId: delete
+      summary: 在庫削除
+      description: 在庫削除
+      parameters:
+      - name: stockId
+        in: path
+        description: Id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        204:
+          description: successful operation
+          content: {}
+        404:
+          description: not found
+          content: {}
+  /stock/getByProductId/{productId}:
+    get:
+      tags:
+        - RestStockService
+      operationId: getByProductId
+      summary: 在庫取得
+      description: 在庫取得
+      parameters:
+      - name: productId
+        in: path
+        description: Product Id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestGetByProductIdResponse'
+        404:
+          description: not found
+          content: {}
+  /stock/:
+    get:
+      tags:
+        - RestStockService
+      operationId: findAll
+      summary: 全在庫取得
+      description: 全在庫取得
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestFindAllResponse'
+        404:
+          description: not found
+          content: {}
+    put:
+      tags:
+        - RestStockService
+      operationId: update
+      summary: 在庫更新
+      description: 在庫更新
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RestUpdateStockRequest'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestUpdateStockResponse'
+        404:
+          description: not found
+          content: {}
+    post:
+      tags:
+        - RestStockService
+      operationId: create
+      summary: 在庫作成
+      description: 在庫作成
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RestCreateStockRequest'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestCreateStockResponse'
+        404:
+          description: not found
+          content: {}
+  /dapr/subscribe:
+    get:
+      tags:
+        - RestStockService
+      operationId: daprSubscribe
+      summary: daprSubscribe
+      description: daprSubscribe
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DaprSubscribe'
+  /stock/reserveAllocate/:
+    post:
+      tags:
+        - RestStockService
+      operationId: reserveAllocate
+      summary: SAGA。在庫の引当予約。引当履歴を作成する。
+      description: SAGA。在庫の引当予約を行う（数量を減らして、予約数量を増やす）。PENDINGステータスで引当履歴を作成する（Semantic Lock カウンターメジャー）。
+      requestBody:
+        content:
+          "application/cloudevents+json":
+            schema:
+              type: string
+              format: byte
+      responses:
+        200:
+          description: successful operation
+          content: {}
+  /stock/approveAllocate/:
+    post:
+      tags:
+        - RestStockService
+      operationId: approveAllocate
+      summary: SAGA。在庫の引当を承認する。引当履歴を更新する。
+      description: SAGA。引当予約を承認する。引当処理を実施し、引当履歴のステータスを引当済みに変更する（Semantic Lock カウンターメジャー）。
+      requestBody:
+        content:
+          "application/cloudevents+json":
+            schema:
+              type: string
+              format: byte
+      responses:
+        200:
+          description: successful operation
+          content: {}
+  /stock/rejectAllocate/:
+    post:
+      tags:
+        - RestStockService
+      operationId: rejectAllocate
+      summary: SAGA。在庫予約の却下。引当履歴を更新する。
+      description: SAGA。引当予約を却下する。引当予約を取り消す（数量を増やして、予約数量を減らす）。引当履歴のステータスを却下に変更する（Semantic Lock カウンターメジャー）
+      requestBody:
+        content:
+          "application/cloudevents+json":
+            schema:
+              type: string
+              format: byte
+      responses:
+        200:
+          description: successful operation
+          content: {}
+components:
+  schemas:
+    RestCreateStockRequest:
+      type: object
+      required:
+        - productId
+        - quantity
+        - reservedQuantity
+      properties:
+        productId:
+          type: integer
+          description: 商品Id
+          format: int32
+          example: 123
+        quantity:
+          type: integer
+          description: 数量
+          format: int32
+          example: 123
+        reservedQuantity:
+          type: integer
+          description: 予約数量（引当がPENDINGステータスの数量）
+          format: int32
+          example: 123
+    RestUpdateStockRequest:
+      type: object
+      required:
+        - id
+        - productId
+        - quantity
+        - reservedQuantity
+      properties:
+        id:
+          type: integer
+          description: Id
+          format: int32
+          example: 123
+        productId:
+          type: integer
+          description: 商品Id
+          format: int32
+          example: 123
+        quantity:
+          type: integer
+          description: 数量
+          format: int32
+          example: 123
+        reservedQuantity:
+          type: integer
+          description: 予約数量（引当がPENDINGステータスの数量）
+          format: int32
+          example: 123
+    RestStock:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id
+          format: int32
+          example: 123
+        productId:
+          type: integer
+          description: 商品Id
+          format: int32
+          example: 123
+        quantity:
+          type: integer
+          description: 数量
+          format: int32
+          example: 123
+        reservedQuantity:
+          type: integer
+          description: 予約数量（引当がPENDINGステータスの数量）
+          format: int32
+          example: 123
+    RestGetByStockIdResponse:
+      type: object
+      properties:
+        stock:
+          $ref: '#/components/schemas/RestStock'
+    RestGetByProductIdResponse:
+      type: object
+      properties:
+        stock:
+          $ref: '#/components/schemas/RestStock'
+    RestCreateStockResponse:
+      type: object
+      properties:
+        stock:
+          $ref: '#/components/schemas/RestStock'
+    RestUpdateStockResponse:
+      type: object
+      properties:
+        stock:
+          $ref: '#/components/schemas/RestStock'
+    RestFindAllResponse:
+      type: object
+      properties:
+        stocks:
+          type: array
+          items:
+            $ref: '#/components/schemas/RestStock'
+    StockReserveAllocateRequest:
+      type: object
+      required:
+        - requestId
+        - productId
+        - quantity
+      properties:
+        requestId:
+          description: 処理要求を一意に表すリクエストId。
+          type: string
+          example: O0000000001-1234567890
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductAllocateDetail'
+    ProductAllocateDetail:
+      type: object
+      required:
+        - productId
+        - quantity
+      properties:
+        productId:
+          type: integer
+          description: 商品Id
+          format: int32
+          example: 123
+        quantity:
+          type: integer
+          description: 数量
+          format: int32
+          example: 123
+    StockApproveAllocateRequest:
+      type: object
+      required:
+        - requestId
+      properties:
+        requestId:
+          description: 引当予約の承認対象のリクエストId
+          type: string
+          example: O0000000001-1234567890
+    StockRejectAllocateRequest:
+      type: object
+      required:
+        - requestId
+      properties:
+        requestId:
+          description: 引当予約の却下対象のリクエストId
+          type: string
+          example: O0000000001-1234567890
+    DaprSubscribe:
+      type: object
+      properties:
+        pubsubname:
+          type: string
+          description: pubsub
+          example: pubsub
+        topic:
+          type: string
+          description: topic
+          example: topic
+        route:
+          type: string
+          description: route
+          example: /order
+

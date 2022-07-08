@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>jp.co.ogis-ri.nautible.app</groupId>
-  <artifactId>nautible-app-stock-parent</artifactId>
+  <artifactId>nautible-app-ms-stock-parent</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <properties>
@@ -22,9 +22,9 @@
     <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
     <openapi.generator.maven.plugin.version>5.0.0</openapi.generator.maven.plugin.version>
     <nautible.app.stock.groupId>jp.co.ogis-ri.nautible.app</nautible.app.stock.groupId>
-    <nautible.app.stock.name>nautible-app-stock</nautible.app.stock.name>
+    <nautible.app.stock.name>nautible-app-ms-stock</nautible.app.stock.name>
     <nautible.app.stock.version>1.0.0-SNAPSHOT</nautible.app.stock.version>
-    <dapr.sdk.version>1.0.2</dapr.sdk.version>
+    <dapr.sdk.version>1.5.0</dapr.sdk.version>
     <okhttp.version>4.9.0</okhttp.version>
     <okio.version>2.8.0</okio.version>
     <jandex.maven.plugin.version>1.1.0</jandex.maven.plugin.version>
@@ -124,32 +124,48 @@
     </pluginManagement>
   </build>
   <profiles>
+    <!-- 
+      最新のmvn(3.8.5)を利用した場合、quarkus-maven-pluginではコマンドライン引数(-P xxx)でのプロファイル指定が有効とならない。
+      system propertyでのプロファイルの有効化が機能するのでsystem propertyを利用する。
+    -->
     <profile>
       <id>default</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
       <modules>
-        <module>nautible-app-stock-core</module>
-        <module>nautible-app-stock-aws</module>
-        <module>nautible-app-stock-azure</module>
-        <module>nautible-app-stock-build</module>
+        <module>nautible-app-ms-stock-core</module>
+        <module>nautible-app-ms-stock-aws</module>
+        <module>nautible-app-ms-stock-azure</module>
+        <module>nautible-app-ms-stock-build</module>
       </modules>
     </profile>
     <profile>
       <id>aws</id>
+      <activation>
+        <property>
+          <name>cloud</name>
+          <value>aws</value>
+        </property>
+      </activation>
       <modules>
-        <module>nautible-app-stock-core</module>
-        <module>nautible-app-stock-aws</module>
-        <module>nautible-app-stock-build</module>
+        <module>nautible-app-ms-stock-core</module>
+        <module>nautible-app-ms-stock-aws</module>
+        <module>nautible-app-ms-stock-build</module>
       </modules>
     </profile>
     <profile>
       <id>azure</id>
+      <activation>
+        <property>
+          <name>cloud</name>
+          <value>azure</value>
+        </property>
+      </activation>
       <modules>
-        <module>nautible-app-stock-core</module>
-        <module>nautible-app-stock-azure</module>
-        <module>nautible-app-stock-build</module>
+        <module>nautible-app-ms-stock-core</module>
+        <module>nautible-app-ms-stock-azure</module>
+        <module>nautible-app-ms-stock-build</module>
       </modules>
     </profile>
   </profiles>
