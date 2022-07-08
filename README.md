@@ -34,3 +34,19 @@ Quarkusアプリケーション共通の内容については[こちら](https:/
 * [daprのインストール(helm)](https://docs.dapr.io/getting-started/install-dapr-kubernetes/#install-with-helm-advanced)
 * マニフェストファイルの配置
 [nautible-app-ms-stock-manifest](https://github.com/nautible/nautible-app-ms-stock-manifest)をnautible-app-ms-stockプロジェクトと同一階層に配置する(git clone)。
+
+## サンプルアプリ利用手順
+
+### アプリケーション依存サービスの起動
+
+manifestリポジトリでマニフェストを適用する
+
+```bash
+kubectl apply -k overlays/(aws|azure)/local-dev/dependencies
+```
+### skaffoldによるアプリケーション起動
+
+```bash
+skaffold dev --profile=(aws|azure) --port-forward
+```
+※wslなどのLinux環境で実行することを前提としています
