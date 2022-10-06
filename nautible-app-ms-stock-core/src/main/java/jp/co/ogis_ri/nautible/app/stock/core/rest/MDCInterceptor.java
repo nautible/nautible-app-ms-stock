@@ -1,5 +1,7 @@
 package jp.co.ogis_ri.nautible.app.stock.core.rest;
 
+import java.util.Optional;
+
 import javax.enterprise.inject.spi.CDI;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
@@ -26,9 +28,9 @@ public class MDCInterceptor {//implements ContainerRequestFilter, ContainerRespo
     Object logInvocation(InvocationContext context) throws Exception {
         RoutingContext routingContext = CDI.current().select(RoutingContext.class).get();
         HttpServerRequest request = routingContext.request();
-        MDC.put("x-request-id", request.getHeader("x-request-id"));
-        MDC.put("url", request.path());
-        MDC.put("method", request.method());
+        Optional.ofNullable(request.getHeader("x-request-id")).ifPresent(xRequestId -> MDC.put("x-request-id", xRequestId));
+        Optional.ofNullable(request.path()).ifPresent(path -> MDC.put("url", path));
+        Optional.ofNullable(request.method()).ifPresent(method -> MDC.put("method", method));
         Object ret = null;
         try {
             ret = context.proceed();
