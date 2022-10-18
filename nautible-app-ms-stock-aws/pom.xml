@@ -5,6 +5,7 @@
   <artifactId>nautible-app-ms-stock-aws</artifactId>
 
   <properties>
+    <quarkus-amazon-services.version>1.3.0</quarkus-amazon-services.version>
   </properties>
 
   <parent>
@@ -12,6 +13,18 @@
     <artifactId>nautible-app-ms-stock-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
+
+  <dependencyManagement>
+      <dependencies>
+        <dependency>
+          <groupId>io.quarkiverse.amazonservices</groupId>
+          <artifactId>quarkus-amazon-services-bom</artifactId>
+          <version>${quarkus-amazon-services.version}</version>
+          <type>pom</type>
+          <scope>import</scope>
+        </dependency>
+      </dependencies>
+    </dependencyManagement>
 
   <dependencies>
     <dependency>
@@ -30,7 +43,7 @@
     </dependency>
     <!-- dynamodb -->
     <dependency>
-      <groupId>io.quarkus</groupId>
+      <groupId>io.quarkiverse.amazonservices</groupId>
       <artifactId>quarkus-amazon-dynamodb</artifactId>
     </dependency>
     <dependency>
@@ -42,8 +55,8 @@
       <artifactId>netty-nio-client</artifactId>
     </dependency>
     <dependency>
-      <groupId>software.amazon.awssdk</groupId>
-      <artifactId>dynamodb-enhanced</artifactId>
+      <groupId>io.quarkiverse.amazonservices</groupId>
+      <artifactId>quarkus-amazon-dynamodb-enhanced</artifactId>
     </dependency>
   </dependencies>
   <build>
