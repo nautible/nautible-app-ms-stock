@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.grpc.stub.StreamObserver;
+import io.quarkus.grpc.GrpcService;
 import jp.co.ogis_ri.nautible.app.stock.api.grpc.Empty;
 import jp.co.ogis_ri.nautible.app.stock.api.grpc.GrpcCreateStockRequest;
 import jp.co.ogis_ri.nautible.app.stock.api.grpc.GrpcCreateStockResponse;
@@ -26,6 +27,7 @@ import jp.co.ogis_ri.nautible.app.stock.domain.StockService;
  * gRPCの在庫サービス。gRPCのエンドポイント。
  */
 @Singleton
+@GrpcService
 public class GrpcStockService extends StockServiceGrpc.StockServiceImplBase {
 
     @Inject
