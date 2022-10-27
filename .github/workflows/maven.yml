@@ -17,6 +17,8 @@ jobs:
     
     runs-on: ubuntu-latest
 
+    environment: develop # for azure oidc
+
     env:
       IMAGE_TAG: ${{ github.sha }}
 
