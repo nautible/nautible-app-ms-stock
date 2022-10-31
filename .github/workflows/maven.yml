@@ -17,6 +17,8 @@ jobs:
     
     runs-on: ubuntu-latest
 
+    environment: develop # for azure oidc
+
     env:
       IMAGE_TAG: ${{ github.sha }}
 
@@ -74,19 +76,18 @@ jobs:
       id: login-acr
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: Login Azure Docker
-      id: login-azure-docker
-      uses: azure/docker-login@v1
-      with:
-        login-server: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}
-        username: ${{ secrets.AZURE_REGISTRY_USERNAME }}
-        password: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    - name: Login Azure Acr
+      id: login-azure-acr
+      run: |
+        az acr login -n nautibledevacr
     - name: Stock Build, tag, and push image to Azure ACR
       id: build-image-service-acr
       env:
         DOCKER_BUILDKIT: 1
-        ACR_REGISTRY: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}
+        ACR_REGISTRY: nautibledevacr.azurecr.io
         ACR_REPOSITORY: nautible-app-ms-stock
       run: |
         cd $GITHUB_WORKSPACE/nautible-app-ms-stock-build
@@ -101,6 +102,7 @@ jobs:
         TOKEN: ${{ secrets.PAT }}
         BRANCH: ${{ github.ref_name }}
         APP_NAME: stock
+        ACR_REGISTRY: nautibledevacr.azurecr.io
       run: |
         cd $GITHUB_WORKSPACE/nautible-app-ms-$APP_NAME-manifest
         HTTP_STATUS=$(curl -H "Accept: application/vnd.github+json" -H "Authorization: token $TOKEN" https://api.github.com/repos/nautible/nautible-app-ms-$APP_NAME-manifest/branches/$BRANCH -o /dev/null -w '%{http_code}\n' -s)
@@ -110,7 +112,7 @@ jobs:
         fi
         git fetch origin $BRANCH && git checkout $BRANCH
         sed -i 's/image: public.ecr.aws\/nautible\/nautible-app-ms-'$APP_NAME':\(.*\)/image: public.ecr.aws\/nautible\/nautible-app-ms-'$APP_NAME':'$IMAGE_TAG'/' ./overlays/aws/dev/$APP_NAME-deploy.yaml 
-        sed -i 's/image: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}\/nautible-app-ms-'$APP_NAME':\(.*\)/image: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}\/nautible-app-ms-'$APP_NAME':'$IMAGE_TAG'/' ./overlays/azure/dev/$APP_NAME-deploy.yaml 
+        sed -i 's/image: '$ACR_REGISTRY'\/nautible-app-ms-'$APP_NAME':\(.*\)/image: '$ACR_REGISTRY'\/nautible-app-ms-'$APP_NAME':'$IMAGE_TAG'/' ./overlays/azure/dev/$APP_NAME-deploy.yaml 
         git config user.name github-actions
         git config user.email github-actions@github.com
         git add .
@@ -125,12 +127,13 @@ jobs:
         BRANCH: ${{ github.ref_name }}
         TAG: update-image-feature-${{ github.sha }}
         APP_NAME: stock
+        ACR_REGISTRY: nautibledevacr.azurecr.io
       run: |
         cd $GITHUB_WORKSPACE/nautible-app-ms-$APP_NAME-manifest
         git fetch origin $BRANCH && git checkout $BRANCH
         git checkout -b $TAG $BRANCH
         sed -i 's/image: public.ecr.aws\/nautible\/nautible-app-ms-'$APP_NAME':\(.*\)/image: public.ecr.aws\/nautible\/nautible-app-ms-'$APP_NAME':'$IMAGE_TAG'/' ./overlays/aws/dev/$APP_NAME-deploy.yaml 
-        sed -i 's/image: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}\/nautible-app-ms-'$APP_NAME':\(.*\)/image: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}\/nautible-app-ms-'$APP_NAME':'$IMAGE_TAG'/' ./overlays/azure/dev/$APP_NAME-deploy.yaml 
+        sed -i 's/image: '$ACR_REGISTRY'\/nautible-app-ms-'$APP_NAME':\(.*\)/image: '$ACR_REGISTRY'\/nautible-app-ms-'$APP_NAME':'$IMAGE_TAG'/' ./overlays/azure/dev/$APP_NAME-deploy.yaml 
         git config user.name github-actions
         git config user.email github-actions@github.com
         git add .
