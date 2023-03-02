@@ -29,6 +29,8 @@ public class StockHealthCheck implements HealthCheck {
             stockRepository.get().getByStockId(Integer.MIN_VALUE);
             return builder.up().build();
         } catch (Throwable e) {
+            System.out.println("exp");
+            e.printStackTrace();
             return builder.down().build();
         }
     }
