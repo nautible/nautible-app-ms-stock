@@ -103,6 +103,26 @@ aws dynamodb scan --table-name=Stock --profile localstack --endpoint-url=http://
 
 # マスターデータ登録
 
+## AWS
+aws cliで以下を実行する
+```bash
+aws dynamodb put-item --table-name Stock --item '{ "Id": { "N": "0" }, "ProductId": { "N": "0" }, "Quantity": { "N": "10000000" }, "ReservedQuantity": { "N": "0" }}'
+aws dynamodb put-item --table-name Stock --item '{ "Id": { "N": "1" }, "ProductId": { "N": "1" }, "Quantity": { "N": "10000000" }, "ReservedQuantity": { "N": "0" }}'
+aws dynamodb put-item --table-name Stock --item '{ "Id": { "N": "2" }, "ProductId": { "N": "2" }, "Quantity": { "N": "10000000" }, "ReservedQuantity": { "N": "0" }}'
+aws dynamodb put-item --table-name Stock --item '{ "Id": { "N": "3" }, "ProductId": { "N": "3" }, "Quantity": { "N": "10000000" }, "ReservedQuantity": { "N": "0" }}'
+aws dynamodb put-item --table-name Stock --item '{ "Id": { "N": "4" }, "ProductId": { "N": "4" }, "Quantity": { "N": "10000000" }, "ReservedQuantity": { "N": "0" }}'
+aws dynamodb put-item --table-name Stock --item '{ "Id": { "N": "5" }, "ProductId": { "N": "5" }, "Quantity": { "N": "10000000" }, "ReservedQuantity": { "N": "0" }}'
+aws dynamodb put-item --table-name Stock --item '{ "Id": { "N": "6" }, "ProductId": { "N": "6" }, "Quantity": { "N": "10000000" }, "ReservedQuantity": { "N": "0" }}'
+aws dynamodb put-item --table-name Stock --item '{ "Id": { "N": "7" }, "ProductId": { "N": "7" }, "Quantity": { "N": "10000000" }, "ReservedQuantity": { "N": "0" }}'
+aws dynamodb put-item --table-name Stock --item '{ "Id": { "N": "8" }, "ProductId": { "N": "8" }, "Quantity": { "N": "10000000" }, "ReservedQuantity": { "N": "0" }}'
+aws dynamodb put-item --table-name Stock --item '{ "Id": { "N": "9" }, "ProductId": { "N": "9" }, "Quantity": { "N": "10000000" }, "ReservedQuantity": { "N": "0" }}'
+aws dynamodb put-item --table-name Stock --item '{ "Id": { "N": "10" }, "ProductId": { "N": "10" }, "Quantity": { "N": "10000000" }, "ReservedQuantity": { "N": "0" }}'
+aws dynamodb put-item --table-name Stock --item '{ "Id": { "N": "11" }, "ProductId": { "N": "11" }, "Quantity": { "N": "10000000" }, "ReservedQuantity": { "N": "0" }}'
+aws dynamodb put-item --table-name Stock --item '{ "Id": { "N": "12" }, "ProductId": { "N": "12" }, "Quantity": { "N": "10000000" }, "ReservedQuantity": { "N": "0" }}'
+aws dynamodb put-item --table-name Stock --item '{ "Id": { "N": "13" }, "ProductId": { "N": "13" }, "Quantity": { "N": "10000000" }, "ReservedQuantity": { "N": "0" }}'
+aws dynamodb put-item --table-name Stock --item '{ "Id": { "N": "14" }, "ProductId": { "N": "14" }, "Quantity": { "N": "10000000" }, "ReservedQuantity": { "N": "0" }}'
+```
+
 ## Azure
 Azure CosmosDBコンソール＞データエクスプローラー＞Stock選択＞NewShell
 以下を実行する
@@ -122,7 +142,6 @@ db.Stock.insertMany([
   { "_id": 11,"ProductId":11,"Quantity":10000000,"ReservedQuantity":0},
   { "_id": 12,"ProductId":12,"Quantity":10000000,"ReservedQuantity":0},
   { "_id": 13,"ProductId":13,"Quantity":10000000,"ReservedQuantity":0},
-  { "_id": 14,"ProductId":14,"Quantity":10000000,"ReservedQuantity":0},
-  { "_id": 15,"ProductId":15,"Quantity":10000000,"ReservedQuantity":0}
+  { "_id": 14,"ProductId":14,"Quantity":10000000,"ReservedQuantity":0}
   ])
 ```
