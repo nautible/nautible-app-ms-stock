@@ -100,3 +100,29 @@ aws dynamodb scan --table-name=Stock --profile localstack --endpoint-url=http://
 ## Cosmondb(Monogodb)のデータ確認
 
 - http://localhost:8081/ にアクセス
+
+# マスターデータ登録
+
+## Azure
+Azure CosmosDBコンソール＞データエクスプローラー＞Stock選択＞NewShell
+以下を実行する
+```
+db.Stock.insertMany([
+  { "_id": 0,"ProductId":0,"Quantity":10000000,"ReservedQuantity":0},
+  { "_id": 1,"ProductId":1,"Quantity":10000000,"ReservedQuantity":0},
+  { "_id": 2,"ProductId":2,"Quantity":10000000,"ReservedQuantity":0},
+  { "_id": 3,"ProductId":3,"Quantity":10000000,"ReservedQuantity":0},
+  { "_id": 4,"ProductId":4,"Quantity":10000000,"ReservedQuantity":0},
+  { "_id": 5,"ProductId":5,"Quantity":10000000,"ReservedQuantity":0},
+  { "_id": 6,"ProductId":6,"Quantity":10000000,"ReservedQuantity":0},
+  { "_id": 7,"ProductId":7,"Quantity":10000000,"ReservedQuantity":0},
+  { "_id": 8,"ProductId":8,"Quantity":10000000,"ReservedQuantity":0},
+  { "_id": 9,"ProductId":9,"Quantity":10000000,"ReservedQuantity":0},
+  { "_id": 10,"ProductId":10,"Quantity":10000000,"ReservedQuantity":0},
+  { "_id": 11,"ProductId":11,"Quantity":10000000,"ReservedQuantity":0},
+  { "_id": 12,"ProductId":12,"Quantity":10000000,"ReservedQuantity":0},
+  { "_id": 13,"ProductId":13,"Quantity":10000000,"ReservedQuantity":0},
+  { "_id": 14,"ProductId":14,"Quantity":10000000,"ReservedQuantity":0},
+  { "_id": 15,"ProductId":15,"Quantity":10000000,"ReservedQuantity":0}
+  ])
+```
