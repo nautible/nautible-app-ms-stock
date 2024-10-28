@@ -46,7 +46,7 @@ jobs:
         run: mvn -B package -Dcloud=aws --file pom.xml -Dquarkus.package.type=fast-jar
       - name: Configure AWS credentials
         id: login-aws
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/nautible-dev-githubactions-ecr-access-role
           aws-region: ap-northeast-1
