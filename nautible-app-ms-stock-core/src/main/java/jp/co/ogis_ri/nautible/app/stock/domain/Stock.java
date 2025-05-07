@@ -2,7 +2,7 @@ package jp.co.ogis_ri.nautible.app.stock.domain;
 
 import java.util.Objects;
 
-import javax.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.spi.CDI;
 
 import jp.co.ogis_ri.nautible.app.stock.domain.StockRepository.StockAllocateResult;
 

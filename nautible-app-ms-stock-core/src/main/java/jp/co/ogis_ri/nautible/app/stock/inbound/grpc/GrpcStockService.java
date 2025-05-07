@@ -3,8 +3,8 @@ package jp.co.ogis_ri.nautible.app.stock.inbound.grpc;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import io.grpc.stub.StreamObserver;
 import io.quarkus.grpc.GrpcService;

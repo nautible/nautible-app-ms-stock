@@ -6,13 +6,14 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-import javax.validation.ConstraintViolation;
-import javax.validation.Valid;
-import javax.validation.Validator;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import jakarta.inject.Inject;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Valid;
+import jakarta.validation.Validator;
+import jakarta.validation.constraints.*;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -71,14 +72,14 @@ public class RestStockServiceImpl implements RestStockService {
     }
 
     @Override
-    public Response create(@Valid RestCreateStockRequest stock) {
+    public Response create(@Valid @NotNull RestCreateStockRequest stock) {
         Stock stockRet = service.create(mapper.restCreateStockRequestToStock(stock));
         return stockRet == null ? Response.status(Status.NOT_FOUND).build()
                 : Response.ok(mapper.stockToRestCreateStockResponse(stockRet)).build();
     }
 
     @Override
-    public Response update(@Valid RestUpdateStockRequest stock) {
+    public Response update(@Valid @NotNull RestUpdateStockRequest stock) {
         Stock stockRet = service.update(mapper.restUpdateStockRequestToStock(stock));
         return stockRet == null ? Response.status(Status.NOT_FOUND).build()
                 : Response.ok(mapper.stockToRestUpdateStockResponse(stockRet)).build();

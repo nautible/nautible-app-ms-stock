@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import jp.co.ogis_ri.nautible.app.stock.domain.AllocateStatus;
 import jp.co.ogis_ri.nautible.app.stock.domain.StockAllocateHistory;
