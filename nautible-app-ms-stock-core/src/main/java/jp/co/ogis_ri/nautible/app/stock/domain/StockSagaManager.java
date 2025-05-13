@@ -2,7 +2,7 @@ package jp.co.ogis_ri.nautible.app.stock.domain;
 
 import java.util.function.Function;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import io.dapr.client.DaprClient;
 import io.dapr.client.DaprClientBuilder;

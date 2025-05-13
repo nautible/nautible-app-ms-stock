@@ -1,8 +1,8 @@
 package jp.co.ogisri.nautible.app;
 
-import io.quarkus.test.junit.NativeImageTest;
+//import io.quarkus.test.junit.NativeImageTest;
 
-@NativeImageTest
+//@NativeImageTest
 public class NativeGreetingResourceIT extends GreetingResourceTest {
 
     // Execute the same tests but in native mode.

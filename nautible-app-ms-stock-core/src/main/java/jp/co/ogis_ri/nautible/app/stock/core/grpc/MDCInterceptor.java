@@ -1,6 +1,6 @@
 package jp.co.ogis_ri.nautible.app.stock.core.grpc;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import org.jboss.logging.MDC;
 
